@@ -1,0 +1,1424 @@
+/* ----------------------------------------------------
+ common↓
+---------------------------------------------------- */
+:root {
+  --border-color: #cccccc;
+
+  --text-color: #111111;
+  --white-color: #ffffff;
+  --emp1-color: #eb51c2;
+  --emp2-color: #00b21b;
+}
+
+body {
+  font-family: "Josefin Sans", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  font-size: 16px;
+
+  letter-spacing: 0.05em;
+
+  color: var(--text-color);
+
+  font-feature-settings: "palt";
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+
+  height: 54px;
+
+  transition: opacity 1s;
+
+  border-radius: 24px;
+  background-color: var(--emp1-color);
+}
+
+.btn-link {
+  margin: 0 auto;
+
+  color: var(--white-color);
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+}
+
+.h-section {
+  position: relative;
+}
+
+
+.h-section-main {
+  font-size: 40px;
+}
+
+.h-section-sub {
+  font-size: 14px;
+
+  display: block;
+
+  margin-top: 8px;
+}
+
+.container {
+  margin: 0 16px;
+}
+
+/* ----------------------------------------------------
+ アニメーション↓
+---------------------------------------------------- */
+/* -----フォードアップエフェクト----- */
+.fadeUpTrigger {
+  opacity: 0;
+}
+
+.fadeUp {
+  animation-name: fadeUp;
+  animation-duration: 0.8s;
+
+  opacity: 0;
+
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    transform: translateY(40px);
+
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+
+    opacity: 1;
+  }
+}
+
+
+
+/* -----背景色が伸びて出現----- */
+/* 文字を3sかけて出現させる。背景関係ない 
+  jquery関係なく最初からアニメーションはつく
+  いらない気がする*/
+.bgextend {
+  position: relative;
+
+  overflow: hidden;
+
+  animation-name: bgextendAnimeBase;
+  animation-duration: 3s;
+
+  opacity: 0;
+
+  animation-fill-mode: forwards;
+}
+
+@keyframes bgextendAnimeBase {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+
+/*中の要素*/
+.bgappear {
+  animation-name: bgextendAnimeSecond;
+  animation-duration: 1s;
+  animation-delay: 0.6s;
+
+  opacity: 0;
+
+  animation-fill-mode: forwards;
+}
+
+@keyframes bgextendAnimeSecond {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*左から右*/
+.bgLRextend::before {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  content: "";
+  animation-name: bgLRextendAnime;
+  animation-duration: 1s;
+
+  background-color: var(--emp1-color);
+
+  animation-fill-mode: forwards;
+}
+@keyframes bgLRextendAnime {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  50% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  50.001% {
+    transform-origin: right;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
+/* スクロールをしたら出現する要素にはじめに透過0を指定 */
+.bgappearTrigger, .bgLRextendTrigger {
+  opacity: 0;
+}
+
+
+/* ----------------------------------------------------
+ banner↓
+---------------------------------------------------- */
+.icon-up-box {
+  position: fixed;
+  z-index: 100;
+  right: 24px;
+  bottom: 24px;
+
+  display: none;
+}
+
+
+.icon-up-link {
+  display: flex;
+  align-items: center;
+
+  width: 40px;
+  height: 40px;
+
+  transition: opacity 0.3s;
+
+  border-radius: 20px;
+  background-color: var(--white-color);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.icon-up-link:hover {
+  opacity: 0.8;
+}
+
+.icon_up {
+  font-size: 24px;
+
+  margin: 0 auto;
+
+  color: var(--emp1-color);
+}
+
+
+/* ----------------------------------------------------
+ header↓
+---------------------------------------------------- */
+header {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 64px;
+  padding: 0 16px;
+
+  transition: 0.3s;
+}
+
+header.active {
+  background-color: var(--white-color);
+  box-shadow: 0 3px 6px rgb(0 0 0 / 5%);
+}
+
+
+header .btn {
+  display: none;
+
+  width: 240px;
+  height: 48px;
+
+  opacity: 0;
+}
+
+header .btn.active {
+  display: flex;
+
+  opacity: 1;
+}
+
+
+.h-title-link {
+  width: 96px;
+  height: 16px;
+
+  text-align: center;
+}
+
+
+/* ----------------------------------------------------
+ hero↓
+---------------------------------------------------- */
+.hero {
+  position: relative;
+
+  height: 440px;
+}
+
+.bg-img-box {
+  position: absolute;
+  z-index: -100;
+  top: 0;
+  right: 0;
+
+  width: 70%;
+  height: 440px;
+
+  animation: 1s fadeInMvImg 0.2s forwards;
+  animation: 1s fadeIn-heroImg 0.2s forwards;
+
+  opacity: 0;
+  border-radius: 0 0 0 54px;
+  background-image: url(../img/bg_mv.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+@keyframes fadeIn-heroImg {
+  100% {
+    opacity: 1;
+  }
+}
+
+.hero-wrapper {
+  padding-top: 144px;
+}
+
+
+.h-hero {
+  font-size: 48px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.h-hero-upr {
+  display: inline-block;
+
+  width: fit-content;
+  padding-bottom: 8px;
+
+  background-color: var(--white-color);
+}
+
+.h-hero-lwr {
+  display: inline-block;
+
+  width: fit-content;
+
+  background-color: var(--white-color);
+}
+
+.h-hero-and {
+  color: var(--emp1-color);
+}
+
+
+
+.h-hero-sub {
+  font-size: 16px;
+  font-weight: bold;
+
+  display: block;
+  display: inline-block;
+
+  margin-top: 8px;
+
+  background-color: var(--white-color);
+}
+
+.hero .btn {
+  width: 240px;
+  height: 48px;
+  margin-top: 16px;
+}
+
+
+
+/* ----------------------------------------------------
+ about↓
+---------------------------------------------------- */
+.about {
+  position: relative;
+  top: -24px;
+}
+
+.h-about {
+  text-align: center;
+}
+
+.h-about-main {
+  font-size: 56px;
+
+  display: block;
+
+  color: var(--emp1-color);
+}
+
+.h-about-sub {
+  font-size: 16px;
+  font-weight: normal;
+
+  display: inline-block;
+
+  padding-top: 8px;
+}
+
+.h-about-emp {
+  font-size: 16px;
+
+  color: var(--emp1-color);
+}
+
+.about-text {
+  line-height: 1.8;
+
+  margin-top: 24px;
+}  
+
+.about-wrapper {
+  margin-top: 16px;
+}
+/* training */
+.about-img-box {
+  position: relative;
+  z-index: 10;
+}
+
+.about-text-box {
+  position: relative;
+  z-index: 20;
+  top: -16px;
+
+  padding: 32px 32px 72px;
+
+  border-radius: 16px;
+  background-color: var(--white-color);
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.4);
+}
+
+
+
+/* .h-about-section */
+.h-about-title {
+  font-size: 18px;
+  font-weight: bold;
+
+  display: block;
+
+  color: var(--emp1-color);
+}
+
+.h-about-subtitle {
+  font-size: 24px;
+  font-weight: normal;
+  font-weight: bold;
+  line-height: 1.7;
+
+  display: block;
+
+  margin-top: 24px;
+}
+
+.about-section-text {
+  line-height: 1.5;
+
+  margin-top: 24px;
+}
+
+
+
+/* .food */
+.food {
+  margin-top: 40px;
+}
+
+.food .h-about-title {
+  color: var(--emp2-color);
+}
+
+
+/* .button */
+.about .btn {
+  width: 80%;
+  margin: 40px auto 0;
+  margin-top: 40px;
+
+  text-align: center;
+}
+
+
+/* ----------------------------------------------------
+ OT↓
+---------------------------------------------------- */
+.OT {
+  margin-top: 40px;
+  padding-bottom: 40px;
+
+  background-color: var(--emp1-color);
+}
+
+
+
+.OT .h-section {
+  padding-top: 32px;
+
+  color: var(--white-color);
+}
+
+
+.OT-banner {
+  display: flex;
+
+  margin-top: 32px;
+}
+
+
+.banner-trainer {
+  width: calc(100% / 2);
+  padding: 8px;
+
+  cursor: pointer;
+  text-align: center;
+
+  color: var(--white-color);
+}
+
+.banner-trainer.active {
+  border-bottom: 2px solid var(--white-color);
+}
+
+
+
+.banner-staff {
+  width: calc(100% / 2);
+
+  cursor: pointer;
+  text-align: center;
+
+  color: var(--white-color);
+}
+
+.banner-staff.active {
+  border-bottom: 2px solid var(--white-color);
+}
+
+
+
+.OT-trainer-wrapper {
+  display: none;
+}
+
+.OT-trainer-wrapper.active {
+  display: block;
+}
+
+
+.OT-inner {
+  overflow: hidden;
+
+  margin-top: 16px;
+
+  border-radius: 16px;
+}
+
+/* .OT-box */
+/* .OT-img */
+.OT-text {
+  box-sizing: border-box;
+  height: 96px;
+  padding: 32px;
+
+  background-color: var(--white-color);
+}
+
+.OT-staff-wrapper {
+  display: none;
+}
+
+.OT-staff-wrapper.active {
+  display: block;
+}
+
+
+
+/* ----------------------------------------------------
+ studio↓
+---------------------------------------------------- */
+.studio {
+  margin-top: 40px;
+  padding-bottom: 40px;
+}
+.studio .h-section-sub {
+  color: var(--emp1-color);
+}
+
+
+.swiper {
+  position: relative;
+
+  max-width: calc(100% - 32px);
+  margin: 32px auto 0;
+  padding-bottom: 40px;
+
+  background-color: var(--white-color);
+}
+
+
+.swiper-wrapper {
+  width: 100%;
+}
+
+
+
+.swiper-slide {
+  position: relative;
+
+  flex-shrink: 0;
+
+  width: 100%;
+  height: 100%;
+
+  transition-property: transform;
+  text-align: center;
+}
+
+
+
+
+
+.swiper-button-prev::before {
+  font-family: 'Material Icons';
+  font-size: 16px;
+
+  position: absolute;
+
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 8px 0 0 5px;
+
+  content: "\e5e0";
+  transform: translateY(-50%);
+  text-align: center;
+
+  color: var(--emp1-color);
+  border-radius: 16px;
+  background-color: var(--white-color);
+}
+
+
+.swiper-button-next:after {
+  font-family: 'Material Icons';
+  font-size: 16px;
+
+  position: absolute;
+  right: 0;
+
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 8px 0 0 0;
+
+  content: "\e5e1";
+  transform: translateY(-50%);
+  text-align: center;
+
+  color: var(--emp1-color);
+  border-radius: 16px;
+  background-color: var(--white-color);
+}
+
+
+.swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  margin: 0 0 0 10px !important;
+
+  background: var(--emp1-color);
+}
+
+
+
+
+/* ----------------------------------------------------
+ price↓
+---------------------------------------------------- */
+.price {
+  padding: 40px 0;
+
+  background-color: var(--emp1-color);
+}
+
+.price .h-section {
+  color: var(--white-color);
+}
+
+
+
+.price-wrapper {
+  position: relative;
+
+  display: flex;
+  overflow-x: auto;
+
+  margin-top: 24px;
+  padding-top: 24px;
+
+  white-space: nowrap;
+}
+
+.price-scroll-box {
+  position: absolute;
+  z-index: 50;
+  top: 45%;
+  right: 5%;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  width: 96px;
+  height: 96px;
+
+  color: var(--white-color);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.price-scroll-box.hide {
+  display: none;
+}
+
+.price-scroll {
+  font-size: 54px;
+
+  margin: 0 auto;
+  padding-top: 8px;
+}
+
+
+
+.price-wrapper::-webkit-scrollbar {
+  height: 16px; /* スクロールバーの高さ */
+}
+
+.price-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 8px; /* ツマミ両端の丸み */
+  background: #d2b48c; /* ツマミの色 */
+}
+
+.price-wrapper::-webkit-scrollbar-track {
+  border-radius: 8px; /* トラック両端の丸み */
+  background: #f5deb3; /* トラックの色 */
+}
+
+
+.price-inner {
+  position: relative;
+
+  display: inline-block;
+  overflow: visible;
+  flex-shrink: 0;
+
+  width: 280px;
+  height: 480px;
+  margin-right: 24px;
+  padding: 56px;
+
+  border-radius: 16px;
+  background-color: var(--white-color);
+}
+
+
+.price-recommend {
+  font-size: 24px;
+  line-height: 1;
+
+  position: absolute;
+  top: 0px;
+
+  width: 260px;
+  margin: 0 auto;
+  padding: 10px;
+
+  transform: translateY(-50%);
+  text-align: center;
+
+  color: var(--emp1-color);
+  border: 2px solid var(--emp1-color);
+  border-radius: 24px;
+  background-color: var(--white-color);
+}
+
+.price-title-box {
+  padding-bottom: 24px;
+
+  text-align: center;
+
+  border-bottom: 2px solid var(--border-color);
+}
+
+.price-title {
+  font-size: 26px;
+  font-weight: bold;
+
+  color: var(--emp1-color);
+}
+
+
+.price-price {
+  font-size: 48px;
+  font-weight: bold;
+
+  margin-top: 16px;
+}
+
+.price-price-sub {
+  margin-top: 16px;
+}
+
+.price-rental-box {
+  padding: 32px 0;
+
+  text-align: center;
+
+  border-bottom: 2px solid var(--border-color);
+}
+
+.price-rental {
+  font-size: 18px;
+}
+.price-rental-note {
+  margin-top: 8px;
+}
+
+.price-eat-box {
+  padding: 32px 0;
+
+  text-align: center;
+
+  border-bottom: 2px solid var(--border-color);
+}
+
+.price-eat {
+  font-size: 18px;
+}
+.price-eat-note {
+  margin-top: 16px;
+}
+
+.price-edu-box {
+  padding: 32px 0;
+
+  text-align: center;
+
+  border-bottom: 2px solid var(--border-color);
+}
+
+.price-edu {
+  font-size: 18px;
+}
+.price-edu-note {
+  margin-top: 16px;
+}
+
+
+
+/* ----------------------------------------------------
+ faq↓
+---------------------------------------------------- */
+.faq {
+  padding: 40px 0;
+}
+
+.faq .h-section-sub {
+  color: var(--emp1-color);
+}
+
+
+
+.faq-wrapper {
+  margin-top: 32px;
+}
+
+.faq-qa {
+  border-bottom: 2px solid var(--border-color);
+}
+
+.faq-q {
+  position: relative;
+
+  display: flex;
+
+  padding: 16px 32px 16px 0;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.faq-q::after {
+  font-family: 'Material Icons';
+  font-size: 24px;
+
+  position: absolute;
+  top: 12px;
+  right: 8px;
+
+  content: "\e5cf";
+  transition: transform .5s;
+
+  color: var(--emp1-color);
+}
+
+.faq-q.active::after {
+  content: "\e5ce";
+}
+
+.faq-a {
+  display: flex;
+}
+
+.faq-a.active {
+  display: flex;
+}
+
+.faq-label {
+  font-size: 24px;
+  line-height: 1;
+
+  padding-right: 24px;
+
+  color: var(--emp1-color);
+}
+
+.faq-text {
+  font-size: 16px;
+  line-height: 1.6;
+
+  display: inline-block;
+}
+
+
+
+/* ----------------------------------------------------
+ last↓
+---------------------------------------------------- */
+.last {
+  background-color: var(--emp1-color);
+}
+
+
+.last-sp-box {
+  width: 100%;
+}
+
+.last-pc-box {
+  display: none;
+}
+
+
+.intro {
+  width: 100%;
+  height: 144px;
+
+  background-color: var(--emp1-color);
+}
+
+
+.intro-title {
+  font-size: 32px;
+
+  margin-top: 28px;
+
+  text-align: center;
+
+  color: var(--white-color);
+}
+
+.last .btn {
+  width: 80%;
+  margin: 16px auto 0;
+
+  background-color: var(--white-color);
+}
+
+.last .btn-link {
+  color: var(--emp1-color);
+}
+
+
+/* ----------------------------------------------------
+ footer↓
+---------------------------------------------------- */
+footer {
+  width: 100%;
+  height: 120px;
+
+  background-color: var(--text-color);
+}
+
+
+.footer-text {
+  width: 80px;
+  margin: 0 auto;
+  padding-top: 56px;
+
+  text-align: center;
+}
+
+
+
+
+/* ----------------------------------------------------
+ media Queries 600px以上
+ タブレット用のスタイルを記述
+---------------------------------------------------- */
+@media screen and (min-width: 600px) {
+  /* ----------------------------------------------------
+ header タブレット用↓
+---------------------------------------------------- */
+
+
+
+  /* ----------------------------------------------------
+ hero タブレット用↓
+---------------------------------------------------- */
+  .hero {
+    height: 580px;
+  }
+
+  .bg-img-box {
+    height: 580px;
+  }
+
+
+
+  .h-hero {
+    font-size: 72px;
+  }
+
+
+
+  .h-hero-sub {
+    font-size: 24px;
+  }
+
+
+  /* ----------------------------------------------------
+ about タブレット用↓
+---------------------------------------------------- */
+
+
+  /* ----------------------------------------------------
+ OT タブレット用↓
+---------------------------------------------------- */
+
+  .OT-trainer-wrapper.active {
+    display: flex;
+  }
+
+
+  .OT-inner {
+    overflow: hidden;
+
+    width: calc((100% - 32px)/3);
+  }
+
+  /* .OT-box */
+  .OT-img {
+    object-fit: cover;
+  }
+
+
+  .OT-text {
+    height: 144px;
+    padding: 24px;
+  }
+
+
+  .OT-staff-wrapper.active {
+    display: flex;
+  }
+
+
+
+
+  /* ----------------------------------------------------
+ studio タブレット用↓
+---------------------------------------------------- */
+
+
+  /* ----------------------------------------------------
+ price タブレット用↓
+---------------------------------------------------- */
+  .price-wrapper {
+    height: 600px;
+  }
+
+  .price-inner {
+    width: 240px;
+    height: 440px;
+  }
+
+
+  /* ----------------------------------------------------
+ faq タブレット用↓
+---------------------------------------------------- */
+
+
+
+  /* ----------------------------------------------------
+ last タブレット用↓
+---------------------------------------------------- */
+
+
+  /* ----------------------------------------------------
+ footer タブレット用↓
+---------------------------------------------------- */
+}
+
+
+
+
+/* ----------------------------------------------------
+ media Queries 1025px以上
+ PC版のスタイルを記述
+---------------------------------------------------- */
+@media screen and (min-width: 1025px) {
+  /* ----------------------------------------------------
+ common PC用↓
+---------------------------------------------------- */
+  body {
+    font-size: 18px;
+  }
+
+  .container {
+    margin: 0 32px;
+  }
+
+  .btn {
+    font-size: 20px;
+
+    height: 64px;
+
+    border-radius: 32px;
+  }
+
+  .btn-link {
+    margin: 0 auto;
+
+    color: var(--white-color);
+  }
+
+  /* ----------------------------------------------------
+ banner PC用↓
+---------------------------------------------------- */
+
+  /* ----------------------------------------------------
+ header PC用↓
+---------------------------------------------------- */
+  header {
+    height: 82px;
+    padding: 0 32px;
+  }
+
+  .h-title-link {
+    width: 128px;
+  }
+
+  header .btn {
+    display: none;
+
+    width: 320px;
+    height: 64px;
+  }
+
+
+  /* ----------------------------------------------------
+ hero PC用↓
+---------------------------------------------------- */
+  .hero {
+    position: relative;
+
+    height: 680px;
+  }
+
+  .bg-img-box {
+    width: 70%;
+    height: 680px;
+
+    border-radius: 0 0 0 82px;
+  }
+
+
+  .hero-wrapper {
+    padding-top: 240px;
+  }
+
+
+  .h-hero {
+    font-size: 80px;
+
+    position: relative;
+    left: 100px;
+
+    width: fit-content;
+  }
+
+
+
+  .h-hero-sub {
+    font-size: 28px;
+
+    position: relative;
+    left: 100px;
+
+    width: fit-content;
+    margin-top: 16px;
+  }
+
+  .hero .btn {
+    position: relative;
+    left: 100px;
+
+    width: fit-content;
+    width: 320px;
+    height: 64px;
+    margin-top: 16px;
+  }
+
+
+
+
+  /* ----------------------------------------------------
+ about PC用↓
+---------------------------------------------------- */
+  .about {
+    position: relative;
+    top: -64px;
+  }
+
+
+
+  .h-about-main {
+    font-size: 100px;
+  }
+
+  .h-about-sub {
+    font-size: 32px;
+  }
+
+  .h-about-emp {
+    font-size: 32px;
+  }
+
+  .about-text {
+    margin-top: 32px;
+
+    text-align: center;
+  }
+
+  .about-wrapper {
+    width: 100%;
+    margin-top: 40px;
+  }
+
+  .about-wrapper section {
+    position: relative;
+
+    margin-top: 120px;
+  }
+
+
+  .about-img-box {
+    width: 65%;
+  }
+
+  .about-text-box {
+    position: absolute;
+    top: 40px;
+    right: 0;
+
+    width: 480px;
+    height: 320px;
+    padding: 32px 32px 72px;
+
+    border-radius: 32px;
+  }
+
+
+  .about-wrapper section:nth-child(even) {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+
+  .about-wrapper section:nth-child(even) .about-text-box {
+    left: 0;
+  }
+
+
+
+  /* .button */
+  .about .btn {
+    margin-top: 120px;
+  }
+
+
+  /* ----------------------------------------------------
+ OT PC用↓
+---------------------------------------------------- */
+
+.OT-banner {
+  margin-top: 64px;
+}
+
+  .OT-trainer-wrapper.active {
+    display: flex;
+    margin: 64px auto;
+    max-width: 1120px;
+  }
+
+
+  .OT-inner {
+    overflow: hidden;
+
+    width: calc((100% - 32px)/3);
+  }
+
+  /* .OT-box */
+  .OT-img {
+    object-fit: cover;
+  }
+
+
+  .OT-text {
+    height: 144px;
+    padding: 24px;
+  }
+
+
+  .OT-staff-wrapper.active {
+    display: flex;
+  }
+
+
+  /* ----------------------------------------------------
+ studio PC用↓
+---------------------------------------------------- */
+.studio {
+  margin-top: 56px;
+  padding-bottom: 56px;
+}
+
+
+  /* ----------------------------------------------------
+ price PC用↓
+---------------------------------------------------- */
+.price-wrapper {
+
+  overflow-x: visible;
+
+  margin: 24px auto;
+  padding: 24px 16px 16px;
+
+  max-width: 1120px;
+}
+
+.price-scroll-box {
+  display: none;
+}
+
+
+.price-inner{
+  flex-shrink: 1;
+
+  width: calc((100% - 96px)/3);
+  height: auto;
+  margin: 16px 16px;
+
+  padding: 40px;
+  box-sizing: border-box;
+
+  font-size: 16px;
+}
+
+
+
+
+
+
+  /* ----------------------------------------------------
+ faq PC用↓
+---------------------------------------------------- */
+
+  /* ----------------------------------------------------
+ last PC用↓
+---------------------------------------------------- */
+  .intro {
+    height: 240px;
+  }
+
+
+  .intro-title {
+    font-size: 64px;
+
+    margin-top: 40px;
+  }
+
+  .last .btn {
+    font-size: 24px;
+
+    width: 800px;
+    margin: 40px auto 0;
+  }
+
+  /* ----------------------------------------------------
+ footer PC用↓
+---------------------------------------------------- */
+  footer {
+    height: 240px;
+  }
+
+
+  .footer-text {
+    font-size: 24px;
+
+    width: 240px;
+    padding-top: 104px;
+  }
+}
